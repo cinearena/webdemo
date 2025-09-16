@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>वेबपेज से ऐप बनाना</title>
+    <title>React Native Beginner's Guide</title>
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: #333;
             line-height: 1.6;
             padding: 20px;
@@ -21,9 +21,9 @@
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             overflow: hidden;
@@ -32,81 +32,67 @@
         header {
             background: #4e54c8;
             color: white;
-            padding: 25px;
+            padding: 30px;
             text-align: center;
         }
         
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.8rem;
             margin-bottom: 10px;
         }
         
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             opacity: 0.9;
         }
         
         .content {
             padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
         }
         
-        .methods {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .guide-section {
             margin-bottom: 30px;
         }
         
-        .method-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
-        }
-        
-        .method-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .method-card h3 {
+        h2 {
             color: #4e54c8;
             margin-bottom: 15px;
-            font-size: 1.4rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4e54c8;
         }
         
-        .method-card p {
-            margin-bottom: 15px;
-            color: #555;
+        h3 {
+            color: #6a11cb;
+            margin: 20px 0 10px;
         }
         
-        .method-card ul {
-            padding-left: 20px;
-            color: #555;
-        }
-        
-        .method-card li {
-            margin-bottom: 8px;
-        }
-        
-        .demo-section {
+        .step {
             background: #f5f7ff;
-            padding: 25px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        
-        .demo-title {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #4e54c8;
-        }
-        
-        .pwa-demo {
-            background: white;
+            border-radius: 8px;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #4e54c8;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
         }
         
         .code-block {
@@ -118,25 +104,128 @@
             margin: 15px 0;
             font-family: monospace;
             font-size: 0.9rem;
+            line-height: 1.5;
         }
         
-        .btn {
-            display: inline-block;
-            background: #4e54c8;
+        .cli-command {
+            color: #ff79c6;
+        }
+        
+        .file-path {
+            color: #8be9fd;
+        }
+        
+        .comment {
+            color: #6272a4;
+        }
+        
+        .demo-section {
+            background: #f5f7ff;
+            border-radius: 10px;
+            padding: 25px;
+            height: fit-content;
+        }
+        
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: white;
+            border-radius: 40px;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 4px solid #2c3e50;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .phone-screen {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            height: 100%;
+            border-radius: 30px;
+            padding: 20px;
             color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
+            display: flex;
+            flex-direction: column;
         }
         
-        .btn:hover {
-            background: #3a3fb8;
-            transform: translateY(-2px);
+        .app-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .app-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .welcome-text {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .react-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 30px;
+            animation: spin 10s linear infinite;
+        }
+        
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .button {
+            background: white;
+            color: #6a11cb;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .app-footer {
+            text-align: center;
+            margin-top: auto;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        .prerequisites {
+            background: #fff4e5;
+            border-left: 4px solid #ffb142;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .prerequisites h3 {
+            color: #cc8e35;
+            margin-top: 0;
+        }
+        
+        .prerequisites ul {
+            padding-left: 20px;
+        }
+        
+        .prerequisites li {
+            margin-bottom: 8px;
         }
         
         footer {
@@ -146,13 +235,18 @@
             color: white;
         }
         
-        @media (max-width: 768px) {
-            .methods {
-                grid-template-columns: 1fr;
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.2rem;
             }
             
-            h1 {
-                font-size: 1.8rem;
+            .content {
+                padding: 15px;
+            }
+            
+            .phone-mockup {
+                width: 250px;
+                height: 500px;
             }
         }
     </style>
@@ -160,124 +254,185 @@
 <body>
     <div class="container">
         <header>
-            <h1>वेबपेज को ऐप में कैसे बदलें</h1>
-            <p class="subtitle">वेबसाइट को मोबाइल ऐप्लिकेशन में बदलने के आसान तरीके</p>
+            <h1>React Native Beginner's Guide</h1>
+            <p class="subtitle">Learn how to create your first React Native app from scratch</p>
         </header>
         
         <div class="content">
-            <div class="methods">
-                <div class="method-card">
-                    <h3>PWA (प्रोग्रेसिव वेब ऐप)</h3>
-                    <p>सबसे आसान तरीका जिसमें मेनिफेस्ट फाइल और सर्विस वर्कर का उपयोग करते हैं।</p>
+            <div class="guide-section">
+                <h2>Step-by-Step Guide</h2>
+                
+                <div class="prerequisites">
+                    <h3>Prerequisites</h3>
                     <ul>
-                        <li>कोडिंग की कम आवश्यकता</li>
-                        <li>सभी प्लेटफॉर्म पर काम करता है</li>
-                        <li>ऐप जैसा अनुभव</li>
+                        <li>Node.js installed (version 12 or newer)</li>
+                        <li>JavaScript and React basic knowledge</li>
+                        <li>Java Development Kit (JDK) for Android development</li>
+                        <li>Xcode for iOS development (macOS only)</li>
                     </ul>
                 </div>
                 
-                <div class="method-card">
-                    <h3>WebView आधारित ऐप</h3>
-                    <p>Android और iOS के लिए WebView का उपयोग करके वेबसाइट को ऐप में लपेटते हैं।</p>
+                <div class="step">
+                    <h3><span class="step-number">1</span>Install React Native CLI</h3>
+                    <p>Open your terminal and run the following command to install the React Native command-line interface globally:</p>
+                    <div class="code-block">
+                        <span class="cli-command">npm install -g react-native-cli</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">2</span>Create a New Project</h3>
+                    <p>Navigate to your development directory and create a new React Native project:</p>
+                    <div class="code-block">
+                        <span class="cli-command">react-native init MyFirstApp</span>
+                    </div>
+                    <p>Replace "MyFirstApp" with your desired project name.</p>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">3</span>Navigate to Project Directory</h3>
+                    <p>Change into your project directory:</p>
+                    <div class="code-block">
+                        <span class="cli-command">cd MyFirstApp</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">4</span>Run the Application</h3>
+                    <p>Start the development server and run your app on an emulator or physical device:</p>
+                    <div class="code-block">
+                        <span class="cli-command">react-native run-android</span> <span class="comment"># For Android</span><br>
+                        <span class="cli-command">react-native run-ios</span>     <span class="comment"># For iOS (macOS only)</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">5</span>Understand the Project Structure</h3>
+                    <p>Key files and directories in your React Native project:</p>
+                    <div class="code-block">
+                        <span class="file-path">App.js</span>          <span class="comment"># Main component file</span><br>
+                        <span class="file-path">index.js</span>         <span class="comment"># Entry point</span><br>
+                        <span class="file-path">android/</span>         <span class="comment"># Android native code</span><br>
+                        <span class="file-path">ios/</span>             <span class="comment"># iOS native code</span><br>
+                        <span class="file-path">package.json</span>      <span class="comment"># Project dependencies</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">6</span>Modify Your App</h3>
+                    <p>Edit the App.js file to create your custom UI. Here's a simple example:</p>
+                    <div class="code-block">
+                        import React from 'react';<br>
+                        import { View, Text, StyleSheet, Button } from 'react-native';<br><br>
+                        
+                        const App = () => {<br>
+                        &nbsp;&nbsp;return (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;View style={styles.container}&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Text style={styles.title}&gt;Welcome to React Native!&lt;/Text&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Button title="Get Started" onPress={() => alert('Hello World!')} /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/View&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        };<br><br>
+                        
+                        const styles = StyleSheet.create({<br>
+                        &nbsp;&nbsp;container: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;flex: 1,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;justifyContent: 'center',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;alignItems: 'center',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;backgroundColor: '#6a11cb'<br>
+                        &nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;title: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fontSize: 24,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;color: 'white',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;marginBottom: 20<br>
+                        &nbsp;&nbsp;}<br>
+                        });<br><br>
+                        
+                        export default App;
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">7</span>Test Your Changes</h3>
+                    <p>After saving your changes, reload the app in your emulator/device:</p>
                     <ul>
-                        <li>Android Studio या Xcode की आवश्यकता</li>
-                        <li>दोनों प्लेटफॉर्म के लिए अलग-अलग कोड</li>
-                        <li>बेहतर परफॉर्मेंस</li>
+                        <li>Android: Press R twice or run <span class="cli-command">adb shell input keyevent 82</span></li>
+                        <li>iOS: Press Cmd+R in the iOS simulator</li>
                     </ul>
                 </div>
                 
-                <div class="method-card">
-                    <h3>क्रॉस-प्लेटफॉर्म फ्रेमवर्क</h3>
-                    <p>React Native, Flutter, या Ionic जैसे फ्रेमवर्क का उपयोग करना।</p>
-                    <ul>
-                        <li>एक कोडबेस, कई प्लेटफॉर्म</li>
-                        <li>अधिक लचीलापन</li>
-                        <li>कोडिंग ज्ञान आवश्यक</li>
-                    </ul>
-                </div>
+                <h2>Next Steps</h2>
+                <ul>
+                    <li>Learn about React Native components (View, Text, Image, etc.)</li>
+                    <li>Understand styling with StyleSheet</li>
+                    <li>Explore navigation with React Navigation</li>
+                    <li>Add third-party libraries to extend functionality</li>
+                    <li>Test your app on both iOS and Android platforms</li>
+                </ul>
             </div>
             
             <div class="demo-section">
-                <h2 class="demo-title">PWA डेमो - मेनिफेस्ट फाइल</h2>
-                <div class="pwa-demo">
-                    <p>PWA बनाने के लिए आपको एक manifest.json फाइल बनानी होगी:</p>
-                    
-                    <div class="code-block">
-{
-  "short_name": "मेरा ऐप",
-  "name": "मेरा शानदार ऐप",
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "icon-512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": "/",
-  "background_color": "#4e54c8",
-  "display": "standalone",
-  "scope": "/",
-  "theme_color": "#4e54c8"
-}
+                <h2>App Preview</h2>
+                <p>Here's what a simple React Native app might look like:</p>
+                
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="app-header">
+                            <h3>MyFirstApp</h3>
+                        </div>
+                        
+                        <div class="app-content">
+                            <svg class="react-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="10" fill="#61DAFB" />
+                                <path d="M50 20 A30 30 0 0 1 80 50 A30 30 0 0 1 50 80 A30 30 0 0 1 20 50 A30 30 0 0 1 50 20" 
+                                      fill="none" stroke="#61DAFB" stroke-width="4" />
+                                <path d="M50 20 A30 30 0 0 0 20 50 A30 30 0 0 0 50 80 A30 30 0 0 0 80 50 A30 30 0 0 0 50 20" 
+                                      fill="none" stroke="#61DAFB" stroke-width="4" />
+                            </svg>
+                            
+                            <div class="welcome-text">
+                                Welcome to React Native!
+                            </div>
+                            
+                            <button class="button">Get Started</button>
+                            <button class="button">Learn More</button>
+                        </div>
+                        
+                        <div class="app-footer">
+                            <p>Powered by React Native</p>
+                        </div>
                     </div>
-                    
-                    <p>इसके बाद HTML में इसका लिंक जोड़ें:</p>
-                    
-                    <div class="code-block">
-&lt;link rel="manifest" href="manifest.json"&gt;
-                    </div>
-                    
-                    <button class="btn" id="installButton" style="display: none;">ऐप इंस्टॉल करें</button>
-                    <p id="installStatus">आपका ब्राउज़र PWA इंस्टॉल का सपोर्ट करता है</p>
                 </div>
+                
+                <h2 style="margin-top: 30px;">Development Tools</h2>
+                <ul>
+                    <li><strong>Expo CLI</strong>: Alternative to React Native CLI with easier setup</li>
+                    <li><strong>React Developer Tools</strong>: Debugging tools for React</li>
+                    <li><strong>Flipper</strong>: Debugging platform for mobile apps</li>
+                    <li><strong>Visual Studio Code</strong>: Recommended code editor with React Native extensions</li>
+                </ul>
+                
+                <h2 style="margin-top: 30px;">Helpful Resources</h2>
+                <ul>
+                    <li>React Native Documentation: <a href="https://reactnative.dev">reactnative.dev</a></li>
+                    <li>React Navigation: <a href="https://reactnavigation.org">reactnavigation.org</a></li>
+                    <li>Expo: <a href="https://expo.io">expo.io</a></li>
+                    <li>React Native Elements UI Toolkit: <a href="https://reactnativeelements.com">reactnativeelements.com</a></li>
+                </ul>
             </div>
         </div>
         
         <footer>
-            <p>© 2023 - वेबपेज से ऐप बनाने का गाइड</p>
+            <p>Created with ❤️ for React Native beginners</p>
         </footer>
     </div>
 
     <script>
-        // PWA इंस्टॉलेशन के लिए सरल डेमो
-        const installButton = document.getElementById('installButton');
-        const installStatus = document.getElementById('installStatus');
-        
-        // PWA इंस्टॉल की सुविधा की जांच करें
-        window.addEventListener('beforeinstallprompt', (event) => {
-            event.preventDefault();
-            window.deferredPrompt = event;
-            installButton.style.display = 'block';
-            
-            installButton.addEventListener('click', () => {
-                const promptEvent = window.deferredPrompt;
-                if (!promptEvent) return;
-                
-                promptEvent.prompt();
-                
-                promptEvent.userChoice.then((choiceResult) => {
-                    window.deferredPrompt = null;
-                    installButton.style.display = 'none';
-                    
-                    if (choiceResult.outcome === 'accepted') {
-                        installStatus.textContent = 'ऐप इंस्टॉल हो गया है!';
-                    } else {
-                        installStatus.textContent = 'ऐप इंस्टॉल रद्द किया गया।';
-                    }
-                });
+        // Simple interactivity for the demo app
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Button clicked! This would trigger an action in a real React Native app.');
             });
-        });
-        
-        // अगर PWA इंस्टॉल की सुविधा नहीं है
-        window.addEventListener('appinstalled', (event) => {
-            window.deferredPrompt = null;
-            installButton.style.display = 'none';
-            installStatus.textContent = 'ऐप सफलतापूर्वक इंस्टॉल हो गया!';
         });
     </script>
 </body>
